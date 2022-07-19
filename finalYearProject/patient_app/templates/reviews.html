@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+    View
+{% endblock title %}
+
+{% block context %}
+
+    <div class="container-fluid" style="margin-top: -72px;">
+
+    {% if user.is_authenticated %}
+
+        {% if user.is_patient %}
+
+                 {% if appointment %}
+
+                     <div class="card">
+						<div class="card-body" style="margin-left: 32px; padding-bottom:80px;">
+							<div class="row">
+								<h2 class="text-dark font-weight-medium" style="padding-bottom: 40px; padding-top: 24px;">Write a Review for Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }}</h2>
+							</div>
+							<div class="row">
+								<form method="post">
+                                    {% csrf_token %}
+									<div>
+										<label for="id_review">Leave your feedback here:</label>
+										<textarea class="form-control" rows="3" name="review" id="id_review" placeholder="Text Here..." style="width:800px;" required></textarea>
+									</div>
+									<div class="form-actions" style="padding-top:40px;">
+                                        <div class="text-left">
+                                            <button type="submit" class="btn btn-info">Submit</button>
+                                            <button type="reset" class="btn btn-link">Reset</button>
+                                        </div>
+                                    </div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+                    {% else %}
+
+                     You can't give reviews!
+
+                 {% endif %}
+
+        {% else %}
+
+            <h5>You are not authorized here!</h5>
+
+        {% endif %}
+
+    {% endif %}
+
+    </div>
+
+{% endblock context %}

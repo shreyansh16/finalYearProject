@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+    AdmintHome
+{% endblock title %}
+
+        {% block context %}
+            <div class="container-fluid" style="padding-right: 32px; margin-top: -72px;">
+            {% if user.is_admin %}
+
+                {% if messages %}
+                    {% for messages in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                         {{messages}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true" style="color: #1b9e64">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+            <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+            				<div class="card-body">
+                                <h3 class="card-title mt-5"><i
+                                        class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline" style="padding-top: -20px;"></i>Specialisations</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Specialisation</th>
+                                                <th scope="col">Header Image</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for cat in specialization %}
+                                            <tr>
+                                                <td>{{ cat }}</td>
+                                                <td><img src="{{ cat.header_image.url }}" alt="{{ cat }}" width="200"></td>
+                                                <td><a href="{% url 'updateCategory' cat.id %}"><button class="btn btn-light text-dark">Edit</button></a></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+                {% if count >= 9 %}
+                    <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+                {% if specialization.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?pg={{specialization.previous_page_number}}">{{specialization.previous_page_number}}</a></li>
+                {% endif %}
+                    <li class="page-item"><a class="page-link" href="?pg={{specialization.number}}">{{specialization.number}}</a></li>
+                {% if specialization.has_next %}
+                    <li class="page-item"><a class="page-link" href="?pg={{specialization.next_page_number}}">{{specialization.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="?pg={{specialization.paginator.num_pages}}">>></a>
+                </li>
+                    </ul>
+                </nav>
+
+                    {% endif %}
+
+            {% else %}
+
+            You are not authorized here!
+
+            {% endif %}
+            </div>
+        {% endblock context %}
+

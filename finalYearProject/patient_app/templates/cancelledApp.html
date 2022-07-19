@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+    PatientHome
+{% endblock title %}
+
+
+        {% block context %}
+
+            <div class="container-fluid" style="margin-top:-72px;">
+
+            {% if user.is_patient %}
+
+                    {% if request.user.id == patient.user.id %}
+
+
+                {% if appointment %}
+
+                <div class="card-rows">
+				  <div class="card">
+					<div class="card-body">
+						<h3 class="card-title mt-5"><i
+                                        class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline" style="padding-top: -20px;"></i>Cancelled Appointments</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col">Patient Name</th>
+                                                <th scope="col">Doctor Name</th>
+                                                <th scope="col">Date Of Visit</th>
+                                                <th scope="col">Reason of Visit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for app in appointment %}
+
+                                            <tr>
+
+                                                <td>{{ app.p_first_name }} {{ app.p_last_name }}</td>
+                                                <td>Dr. {{ app.doctor.user.first_name }} {{ app.doctor.user.last_name }}<br><span style="font-size: 14px;">({{ app.doctor.specialization }})</span></td>
+                                                <td>{{ app.a_date }}</td>
+                                                {% if app.visit_reason %}
+                                                    <td>{{ app.visit_reason }}</td>
+                                                {% else %}
+                                                    <td>-</td>
+                                                {% endif %}
+                                            </tr>
+
+                                            {% endfor %}
+                                        </tbody>
+                                  </table>
+					  </div>
+					</div>
+				  </div>
+				</div>
+
+                    {% if count >= 6  %}
+
+                        <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+                {% if appointment.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?pg={{appointment.previous_page_number}}">{{appointment.previous_page_number}}</a></li>
+                {% endif %}
+                    <li class="page-item"><a class="page-link" href="?pg={{appointment.number}}">{{appointment.number}}</a></li>
+                {% if appointment.has_next %}
+                    <li class="page-item"><a class="page-link" href="?pg={{appointment.next_page_number}}">{{appointment.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="?pg={{appointment.paginator.num_pages}}">>></a>
+                </li>
+                    </ul>
+                </nav>
+
+                        {% endif %}
+
+
+                  {% else %}
+
+                    <h5>No appointments are cancelled!</h5>
+
+                    {% endif %}
+
+                    {% else %}
+
+                        <h5>You are not authorized here!</h5>
+
+                    {% endif %}
+
+            {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+            {% endif %}
+
+
+            </div>
+        {% endblock context %}
+

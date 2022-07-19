@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    View
+{% endblock title %}
+
+{% block context %}
+
+    <div class="container-fluid" style="margin-top: -72px;">
+
+    {% if user.is_authenticated %}
+
+        {% if user.is_patient %}
+
+                {% if patient.user.id == request.user.id %}
+
+                    {% if messages %}
+                    {% for messages in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                         {{messages}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true" style="color: #1b9e64">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="card-rows">
+                <div class="card">
+					<div class="card-body" style="margin-left: 24px; padding-bottom:120px;">
+						<div class="customize-input float-right" style="padding-top: 24px; padding-right: 16px;">
+                            <a href="{% url 'updatePatProfile' patient.user.id %}"><button type="submit" class="btn btn-light" style="padding:8px 24px;">Edit</button></a>
+                        	</div>
+						<h2 class="text-dark font-weight-medium" style="padding-bottom: 80px; padding-top: 24px;">Profile</h2>
+
+						<div class="row">
+								<img src="{% if patient.user.header_image %}{{ patient.user.header_image.url }}{% else %}{% static 'images/defaultpic.jpg' %}{% endif %}" alt="user" class="rounded-circle " style="margin: 0 350px;width: 200px;height:200px;">
+						</div>
+                        {% if patient.user.header_image %}
+                        <div class="row" style="margin: 0 270px;  padding-top:5px;padding-left:105px;">
+                            <a href="{% url 'deletePicture' user.id %}"><span class="btn-link" style="color:red;">(Remove Picture)</span></a>
+						</div>
+                        {% endif %}
+						<div class="row" style="margin: 0 270px; padding-top: 15px; padding-left:16px;">
+							<span class="text-center text-dark font-weight-medium" style="align-content: center; padding-left:16px; font-size:22px;"></span>
+						</div>
+                    <div style="margin-left:50px;margin-top: 50px;">
+                    <table  width="100%" style="align:center;text-align: left;margin-right: 120px">
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Name</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark font-weight-medium">{{ patient.user.first_name }}{% if patient.user.middle_name %} {{ patient.user.middle_name }}{% endif %} {{ patient.user.last_name }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Age</label>
+                                    <span class="text-dark font-weight-light" style="font-size: 14px;padding-left: 8px;">(in years)</span>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ age}} </label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Gender</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ patient.user.gender}}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Contact No</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ patient.user.contact_no }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Email</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ patient.user.email }}</label>
+                            </div>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+                {% else %}
+
+                    <h5>You are not authorized here!</h5>
+
+                {% endif %}
+
+    {% else %}
+
+            <h5>You are not authorized here!</h5>
+
+         {% endif %}
+
+    {% endif %}
+
+
+
+    </div>
+
+{% endblock context %}

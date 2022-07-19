@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Admin Home
+{% endblock title %}
+
+        {% block context %}
+
+            <div class="container-fluid" style="padding-right: 32px; margin-top: -72px;">
+
+                {% if user.is_admin and user.is_staff %}
+
+                {% if admin %}
+
+                <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title mt-5"><i
+                                            class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline" style="padding-top: -20px;"></i>Admin List</h3>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">First Name</th>
+                                                    <th scope="col">Last Name</th>
+                                                    <th scope="col" style="align-content :center;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                {% for admin in admin %}
+
+                                                <tr>
+                                                    <td>{{admin.user.first_name}}</td>
+                                                    <td>{{admin.user.last_name}}</td>
+                                                    <td><a href="{% url 'deleteAdmin' admin.user.id %}"><button class="btn btn-link" style="color: red; font-size:16px;">Remove</button></a></td>
+                                                </tr>
+
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                {% if count >= 7 %}
+                    <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+                {% if admin.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?pg={{admin.previous_page_number}}">{{admin.previous_page_number}}</a></li>
+                {% endif %}
+                    <li class="page-item"><a class="page-link" href="?pg={{admin.number}}">{{admin.number}}</a></li>
+                {% if admin.has_next %}
+                    <li class="page-item"><a class="page-link" href="?pg={{admin.next_page_number}}">{{admin.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="?pg={{admin.paginator.num_pages}}">>></a>
+                </li>
+                    </ul>
+                </nav>
+                    {% endif %}
+
+                {% else %}
+
+                    No Admins Here!
+
+                {% endif %}
+
+            {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+            {% endif %}
+
+            </div>
+
+            {% endblock context %}

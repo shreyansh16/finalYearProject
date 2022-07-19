@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Update
+{% endblock title %}
+
+{% block context %}
+
+    <div class="container-fluid" style="margin-top: -72px;">
+
+    {% if user.is_authenticated%}
+
+        {% if user.is_admin %}
+
+            {% if user.id == request.user.id %}
+
+             <div class="card">
+					<div class="card-body" style="margin-left: 24px; padding-bottom:120px;">
+						<h2 class="text-dark font-weight-medium" style="padding-bottom: 80px; padding-top: 24px;">Edit Profile</h2>
+						<form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+							<div class="row">
+								<div class="form-body">
+									<img src="{% if user.header_image %}{{ user.header_image.url }}{% else %}{% static 'images/defaultpic.jpg' %}{% endif %}" alt="user" class="rounded-circle " style="margin: 0 350px;width: 200px;height:200px;">
+									<!--<button class="btn btn-outline-light text-dark" style="margin-left:340px; margin-top: 24px;">Change Image</button>-->
+                                    <div class="row" style="padding-top: 24px;padding-left:300px;">
+                                    <div class="form-group">
+                                                   <div class="input-group mb-3">
+													 <div class="custom-file">
+															<input type="file" class="custom-file-input" name="header_image" id="id_header_image" accept="image/*">
+															<label class="custom-file-label" for="id_header_image">Change Profile Picture</label>
+													 </div>
+												  </div>
+                                    </div>
+                                    </div>
+                                </div>
+							</div>
+                            <div class="row" style="padding-top: 32px; margin-left:56px;">
+                                <div class="form-body">
+                                    <label for="id_first_name">Name </label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                        name="first_name" id="id_first_name" value="{{ user.first_name }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                    name="middle_name" value="{{ user.middle_name }}" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                    name="last_name" value="{{ user.last_name }}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 8px;">
+                                        <div class="col-md-6">
+                                            <label for="id_email">Email</label>
+                                            <div class="form-group">
+                                                <input type="email" class="form-control"
+                                                    name="email" id="id_email" value="{{ user.email }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="id_contact_no">Contact</label>
+                                            <div class="form-group">
+                                                <input type="tel" class="form-control"
+                                                    name="contact_no" id="id_contact_no" pattern="[6789]{1}[0-9]{9}" value="{{ user.contact_no }}" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding-top: 8px;">
+
+                                        <div class="col-md-6">
+                                            <label style="padding-bottom: 8px;">Gender</label>
+                                            <div class="form-group">
+                                                {% if user.gender == "Male" %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender1" value="Male" checked>
+                                                        <label class="form-check-label font-weight-light" for="gender1" select>Male</label>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender1" value="Male">
+                                                        <label class="form-check-label font-weight-light" for="gender1" select>Male</label>
+                                                    </div>
+                                                {% endif %}
+                                                {% if user.gender == "Female" %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender2" value="Female" checked>
+                                                        <label class="form-check-label font-weight-light" for="gender2" select>Female</label>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender2" value="Female">
+                                                        <label class="form-check-label font-weight-light" for="gender2" select>Female</label>
+                                                    </div>
+                                                {% endif %}
+                                                {% if user.gender == "Others" %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender3" value="Others" checked>
+                                                        <label class="form-check-label font-weight-light" for="gender3" select>Others</label>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender3" value="Others">
+                                                        <label class="form-check-label font-weight-light" for="gender3" select>Others</label>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-actions" style="padding-top:16px;">
+                                    <div class="text-left">
+                                        <button type="submit" class="btn btn-info">Update Details</button>
+                                        <!--<button type="reset" class="btn btn-link">Cancel</button>-->
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+						</form>
+
+							</div>
+						</div>
+
+            {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+            {% endif %}
+
+    {% else %}
+
+            <h5>You are not authorized here!</h5>
+
+         {% endif %}
+
+    {% endif %}
+
+    </div>
+
+{% endblock context %}

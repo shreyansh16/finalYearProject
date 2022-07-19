@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}
+    View
+{% endblock title %}
+
+{% block context %}
+
+    <div class="container-fluid" style="margin-top:-72px;">
+
+    {% if user.is_authenticated %}
+
+        {% if user.is_patient and request.user.id == user.id %}
+
+            {% if messages %}
+            {% for messages in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                 {{messages}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" style="color: #1b9e64">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+				 <div class="card" style="padding: 16px;">
+                            <div class="card-body">
+                                <h4 class="card-title" style="padding-bottom: 30px;">Upload Documents</h4>
+                                <form method="post" enctype="multipart/form-data" style="margin-left: 24px;">
+                                    {% csrf_token %}
+                                    <div class="form-body" >
+                                        <label for="id_p_name">Patient Name</label>
+                                        <div class="row">
+                                              <div class="form-group">
+                                                    <input type="text" class="form-control" name="p_name" id="id_p_name" maxlength="120"
+                                                        placeholder="Enter Patient Name" required>
+                                                </div>
+										</div>
+								    </div>
+
+                                    <div class="form-body" >
+                                        <label for="id_document_name">Document Name</label>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="document_name" id="id_document_name" maxlength="120"
+                                                    placeholder="Enter Document Name" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+									<div class="form-body">
+                                        <label for="id_document">Document</label>
+                                        <div class="row">
+                                                <div class="form-group">
+                                                   <div class="input-group mb-3">
+													 <div class="custom-file">
+                                                        <label class="custom-file-label text-left" for="id_document" id="file">Upload Document</label>
+                                                        <input type="file" class="custom-file-input" name="document" id="id_document" required>
+                                                    </div>
+
+                                                       <script type="text/javascript">
+                                                            $('#id_document').on("change",function() {
+                                                                  console.log("change fire");
+                                                                 var i = $(this).prev('label').clone();
+                                                                  var file = $('#id_document')[0].files[0].name;
+                                                               console.log(file);
+                                                                  $(this).prev('label').text(file);
+
+                                                                });
+
+                                                        </script>
+												  </div>
+											</div>
+										</div>
+									</div>
+								    <div class="form-actions" style="margin-top: 24px;">
+                                        <div class="text-left">
+                                            <button type="submit" class="btn btn-info">Submit</button>
+                                            <button type="reset" class="btn btn-link">Reset</button>
+                                        </div>
+                                    </div>
+							  </form>
+					 </div>
+				</div>
+
+                {% if list %}
+
+				<div class="card">
+					<div class="card-body">
+						<h3 class="card-title mt-5"><i
+                                        class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline" style="padding-top: -20px;"></i>Document List</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Patient Name</th>
+                                                <th scope="col">Document Name</th>
+                                                <th scope="col" style="align-content :center;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for list in list %}
+                                            <tr>
+                                                <td>{{ list.p_name }}</td>
+                                                <td>{{ list.document_name }}</td>
+                                                <td><a href="{{ list.document.url }}" target="_blank" rel="noopener noreferrer"><button class="btn btn-link" style="color: green; font-size: 16px;">View</button></a><br><a href="{% url 'removeDocument' list.id %}"><button class="btn btn-link" style="color: red; font-size: 16px;">Remove</button></a></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                  </table>
+                      </div>
+				  </div>
+				</div>
+
+                 {% else %}
+
+                    No Documents Uploaded
+
+                {% endif %}
+
+        {% else %}
+
+            <h5>You are not authorized here!</h5>
+
+        {% endif %}
+
+    {% endif %}
+
+
+
+    </div>
+
+{% endblock context %}

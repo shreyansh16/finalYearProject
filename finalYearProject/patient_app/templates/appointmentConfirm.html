@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Update
+{% endblock title %}
+
+{% block context %}
+
+    {% if user.is_authenticated%}
+
+        <div class="container-fluid" style="margin-top: -72px;">
+
+        {% if user.is_patient %}
+
+               <h2>Appointment Confirmation </h2>
+               <br><br>
+               Your Booking has been Confirmed for Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }}
+               <br>
+               You have been notified via Email and SMS.
+
+        {% else %}
+
+            <h5>You are not authorized here!</h5>
+
+        {% endif %}
+
+    {% endif %}
+
+        </div>
+
+{% endblock context %}

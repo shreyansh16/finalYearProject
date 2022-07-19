@@ -1,0 +1,390 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title>Home</title>
+
+    <!-- Custom CSS -->
+    <link href="{% static 'css/stylemin2.css' %}" rel="stylesheet">
+    <!--<link href="{% static 'assets/extra-libs/c3/c3.min.css' %}" rel="stylesheet">-->
+
+    <script type="text/javascript">
+        function populate()
+        {
+            document.getElementById("id_p_contact_no").value = {{user.contact_no}};
+            document.getElementById("id_p_email").value = "{{ user.email }}";
+            document.getElementById("id_p_first_name").value = "{{ user.first_name }}";
+            document.getElementById("id_p_last_name").value = "{{ user.last_name }}";
+            document.getElementById("id_p_age").value = "{{ user.calculateAge }}";
+
+            var gender = "{{ user.gender }}";
+
+            if(gender == "Male"){
+                document.getElementById("inlineRadio1").checked = true;
+            }
+            else if(gender == "Female"){
+                document.getElementById("inlineRadio2").checked = true;
+            }
+            else
+            {
+                document.getElementById("inlineRadio3").checked = true;
+            }
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">
+    </script>
+
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
+        rel="stylesheet" type="text/css" />
+
+</head>
+
+    <body>
+        <!-- Preloader - style you can find in spinners.css -->
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+        </div>
+
+        <!-- Main wrapper - style you can find in pages.scss -->
+        <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+            data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+
+            <!-- Topbar header - style you can find in pages.scss -->
+            <header class="topbar" data-navbarbg="skin6">
+                <nav class="navbar top-navbar navbar-expand-md">
+                    <div class="navbar-header" data-logobg="skin6">
+
+                        <!-- Logo -->
+                        <div class="navbar-brand">
+                            <!-- Logo icon -->
+                            <a href="{% if user.is_doctor %}
+                                        {% url 'doctorHome' user.id %}
+                                        {% elif user.is_patient %}
+                                        {% url 'patientHome' %}
+                                        {% else %}
+                                        {% url 'adminHome' %}
+                                        {% endif %}">
+                                <b class="logo-icon" style="margin-left:-10px;">
+                                    <img src="{% static 'logo/website_logo2.svg' %}" alt="homepage" style="margin-top:22px;margin-left:0;width: 200px;"/>
+                                </b>
+                                <!--End Logo icon -->
+                            </a>
+                        </div>
+                        <!-- End Logo -->
+                    </div>
+                    <!-- End Logo -->
+
+                    <div class="navbar-collapse collapse" id="navbarSupportedContent">
+
+                        <!-- ============================================================== -->
+                        <!-- Right side toggle and nav items -->
+                        <!-- ============================================================== -->
+                        <ul class="navbar-nav float-right">
+                            <!-- ============================================================== -->
+                            <!-- Search -->
+                            <!-- ============================================================== -->
+                            {% if not user.is_doctor %}
+                            <li class="nav-item d-none d-md-block">
+                                <a class="nav-link" href="javascript:void(0)">
+                                    <form action="{% if user.is_admin %}
+                                        {% url 'adminSearch' %}
+                                        {% elif user.is_patient %}
+                                        {% url 'getResult' %}
+                                        {% endif %}"  method="post">
+                                        {% csrf_token %}
+                                        <div class="customize-input">
+                                            <input class="form-control custom-shadow custom-radius border-0 bg-white"
+                                                type="text" name="tags" id="tags" placeholder="Search" aria-label="Search" style="width: 880px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search form-control-icon" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                              <circle cx="10" cy="10" r="7" />
+                                              <line x1="21" y1="21" x2="15" y2="15" />
+                                            </svg>
+                                        </div>
+                                    </form>
+                                </a>
+                            </li>
+                            {% endif %}
+                        <script>
+      $( function() {
+        var availableTags = [
+            {% for cat in head_spl %}
+                "{{cat.category}}",
+            {% endfor %}
+            {% for doc in head_doc %}
+                "Dr. {{doc.user.first_name}} {{ doc.user.last_name }}",
+            {% endfor %}
+        ];
+        $( "#tags" ).autocomplete({
+          source: availableTags
+        });
+      } );
+      </script>
+
+                            <!-- User profile and search -->
+                            <li class="nav-item dropdown" style="margin-left: {% if user.is_doctor %}910px{% else %}0{% endif %}">
+                                <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <img src="{% if user.header_image %}
+                                            {{ user.header_image.url }}
+                                            {% else %}
+                                            {% static 'images/defaultpic.jpg' %}
+                                            {% endif %}" alt="user" class="rounded-circle"
+                                        width="40" height="40">
+                                    <span class="ml-2 d-none d-lg-inline-block"></span>
+                                    <span><i data-feather="chevron-down"
+                                            class="svg-icon"></i></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                                    {% if not user.is_staff %}
+                                        <a class="dropdown-item" href="{% if user.is_doctor %}
+                                                                        {% url 'viewDocProfile' user.id %}
+                                                                    {% elif user.is_patient %}
+                                                                        {% url 'viewPatProfile' user.id %}
+                                                                    {% elif user.is_admin %}
+                                                                        {% url 'viewAdmProfile' user.id %}
+                                                                    {% endif %}">
+                                        <i data-feather="user" class="svg-icon mr-2 ml-1"></i>
+                                        My Profile</a>
+                                        <div class="dropdown-divider"></div>
+                                    {% endif %}
+                                    <a class="dropdown-item" href="mailto:getsetbook.customer@gmail.com?subject=Customer Support"><i data-feather="settings"
+                                            class="svg-icon mr-2 ml-1"></i>
+                                        Contact Us</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'logout' %}"><i data-feather="power"
+                                            class="svg-icon mr-2 ml-1"></i>
+                                        Logout</a>
+                                </div>
+                            </li>
+                            <!-- User profile and search -->
+
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- End Topbar header -->
+
+            <!-- Left Sidebar - style you can find in sidebar.scss  -->
+            <aside class="left-sidebar" data-sidebarbg="skin6">
+                <!-- Sidebar scroll-->
+                <div class="scroll-sidebar" data-sidebarbg="skin6">
+                    <!-- Sidebar navigation-->
+                    <nav class="sidebar-nav">
+                        <ul id="sidebarnav">
+                            <li class="sidebar-item"> <a class="sidebar-link" href="{% if user.is_doctor %}
+                                                                                            {% url 'doctorHome' user.id %}
+                                                                                            {% elif user.is_patient %}
+                                                                                            {% url 'patientHome' %}
+                                                                                            {% else %}
+                                                                                            {% url 'adminHome' %}
+                                                                                            {% endif %}"
+                                aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+                                  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                            </svg>
+                            <span class="hide-menu">Dashboard</span></a></li>
+                        <li class="list-divider" style="color: #fff"></li>
+
+                        {% if user.is_authenticated %}
+
+                             {% if user.is_doctor %}
+
+                                    <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                                    aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-stats svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+                                    <path d="M18 14v4h4" />
+                                    <circle cx="18" cy="18" r="4" />
+                                    <path d="M15 3v4" />
+                                    <path d="M7 3v4" />
+                                    <path d="M3 11h16" />
+                                    </svg>
+                                    <span class="hide-menu">Appointments </span></a>
+                                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                        <li class="sidebar-item"><a href="{% url 'docUpcomingApp' user.id %}" class="sidebar-link"><span
+                                                    class="hide-menu"> Upcoming
+                                                </span></a>
+                                        </li>
+                                        <li class="sidebar-item"><a href="{% url 'docCancelledApp' user.id %}" class="sidebar-link"><span
+                                                    class="hide-menu"> Cancelled
+                                                </span></a>
+                                        </li>
+                                        <li class="sidebar-item"><a href="{% url 'docHistoryApp' user.id %}" class="sidebar-link"><span
+                                                    class="hide-menu"> History
+                                                </span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'docReviews' user.id %}"
+                                        aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-like svg-icon mr-2 ml-" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <rect x="3" y="16" width="3" height="5" rx="1" />
+                                    <path d="M6 20a1 1 0 0 0 1 1h3.756a1 1 0 0 0 .958 -.713l1.2 -3c.09 -.303 .133 -.63 -.056 -.884c-.188 -.254 -.542 -.403 -.858 -.403h-2v-2.467a1.1 1.1 0 0 0 -2.015 -.61l-1.985 3.077v4z" />
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                    <path d="M5 12.1v-7.1a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-2.3" />
+                                    </svg>
+                                    <span class="hide-menu">Reviews</span></a>
+                                </li>
+
+                             {% elif user.is_patient %}
+
+                                 <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                                    aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-stats svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+                                    <path d="M18 14v4h4" />
+                                    <circle cx="18" cy="18" r="4" />
+                                    <path d="M15 3v4" />
+                                    <path d="M7 3v4" />
+                                    <path d="M3 11h16" />
+                                    </svg>
+                                    <span class="hide-menu">Appointments </span></a>
+                                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                        <li class="sidebar-item"><a href="{% url 'currentApp' user.id %}" class="sidebar-link"><span
+                                                    class="hide-menu"> Upcoming
+                                                </span></a>
+                                        </li>
+                                        <li class="sidebar-item"><a href="{% url 'cancelledApp' user.id %}" class="sidebar-link"><span
+                                                    class="hide-menu"> Cancelled
+                                                </span></a>
+                                        </li>
+                                        <li class="sidebar-item"><a href="{% url 'historyApp' user.id %}" class="sidebar-link"><span
+                                                    class="hide-menu"> History
+                                                </span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'documentUpload' user.id %}"
+                                    aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-zip svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M6 20.735a2 2 0 0 1 -1 -1.735v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-1" />
+                                  <path d="M11 17a2 2 0 0 1 2 2v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-2a2 2 0 0 1 2 -2z" />
+                                  <line x1="11" y1="5" x2="10" y2="5" />
+                                  <line x1="13" y1="7" x2="12" y2="7" />
+                                  <line x1="11" y1="9" x2="10" y2="9" />
+                                  <line x1="13" y1="11" x2="12" y2="11" />
+                                  <line x1="11" y1="13" x2="10" y2="13" />
+                                  <line x1="13" y1="15" x2="12" y2="15" />
+                                </svg>
+                                <span class="hide-menu">Documents</span></a></li>
+
+                             {% elif user.is_admin %}
+
+                                    {% if user.is_staff %}
+
+                                            <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'admList' %}"
+                                                aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <circle cx="9" cy="7" r="4" />
+                                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                                            </svg>
+                                                <span class="hide-menu">Admin</span></a>
+                                            </li>
+
+                                    {% endif %}
+
+                                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'catList' %}"
+                                                    aria-expanded="false">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stethoscope svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M6 4h-1a2 2 0 0 0 -2 2v3.5h0a5.5 5.5 0 0 0 11 0v-3.5a2 2 0 0 0 -2 -2h-1" />
+                                                <path d="M8 15a6 6 0 1 0 12 0v-3" />
+                                                <path  d="M11 3v2" />
+                                                <path  d="M6 3v2" />
+                                                <circle cx="20" cy="10" r="2" />
+                                                </svg>
+                                                <span class="hide-menu">Doctors</span></a>
+                                            </li>
+
+
+                            {% endif %}
+
+                        {% endif %}
+
+                        </ul>
+                    </nav>
+                    <!-- End Sidebar navigation -->
+                </div>
+                <!-- End Sidebar scroll-->
+            </aside>
+            <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+
+            <!-- Page wrapper  -->
+            <div class="page-wrapper">
+                <!-- Bread crumb and right sidebar toggle -->
+                <!--<div id="google_translate_element" style="padding-left: 815px;">
+
+                <script type="text/javascript">
+                function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+                }
+                </script>
+
+                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                </div>-->
+                {% block breadCrumb %}
+
+                {% endblock breadCrumb %}
+                <!-- End Bread crumb and right sidebar toggle -->
+
+                <!-- Container fluid  -->
+                {% block context %}
+                {% endblock context %}
+
+
+
+                <!-- End Container fluid  -->
+            </div>
+            <!-- End Page wrapper  -->
+
+        </div>
+        <!-- End Wrapper -->
+
+        <!-- All Jquery -->
+        <script src="{% static 'assets/libs/popper.js/dist/umd/popper.min.js' %}"></script>
+        <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+        <!-- apps -->
+        <script src="{% static 'dist/js/app-style-switcher.js' %}"></script>
+        <script src="{% static 'dist/js/feather.min.js' %}"></script>
+        <script src="{% static 'assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+        <script src="{% static 'dist/js/sidebarmenu.js' %}"></script>
+
+        <!--Custom JavaScript -->
+        <script src="{% static 'dist/js/custom.min.js' %}"></script>
+
+        <!--This page JavaScript -->
+        <script src="{% static 'assets/extra-libs/c3/d3.min.js' %}"></script>
+        <script src="{% static 'assets/extra-libs/c3/c3.min.js' %}"></script>
+        <script src="{% static 'dist/js/pages/dashboards/dashboard1.min.js' %}"></script>
+    </body>
+
+</html>

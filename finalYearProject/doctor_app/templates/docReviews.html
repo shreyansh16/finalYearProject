@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}
+    View
+{% endblock title %}
+
+{% block context %}
+
+    <div class="container-fluid" style="margin-top: -72px;">
+
+    {% if user.is_authenticated %}
+
+        {% if user.is_doctor %}
+
+            {% if doctor.user.id == request.user.id %}
+
+                <div class="card-rows">
+			  <div class="card">
+				<div class="card-body">
+					<h4 class="text-dark font-weight-medium mb-1">Ratings</h4>
+					<br>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-thumb-up svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#7c7c7c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" />
+					</svg>
+					<span>Like: {{ doctor.total_likes }}</span>
+					<br><br>
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-thumb-down svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#7c7c7c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+					  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+					  <path d="M7 13v-8a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v7a1 1 0 0 0 1 1h3a4 4 0 0 1 4 4v1a2 2 0 0 0 4 0v-5h3a2 2 0 0 0 2 -2l-1 -5a2 3 0 0 0 -2 -2h-7a3 3 0 0 0 -3 3" />
+					</svg>
+					<span>Dislike: {{ doctor.total_dislikes }}</span>
+				</div>
+			  </div>
+			</div>
+
+			<hr style="margin-top: 16px; padding-bottom: 16px;">
+
+             {% if rev %}
+
+                <h4 class="text-dark font-weight-medium mb-1" style="right:16px;">Reviews:</h4>
+                <div class="d-flex align-items-center font-weight-lighter" style="font-size: 14px; padding-bottom:30px;">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item">Total - {{ count }}</li>
+                    </ol>
+                </div>
+
+
+
+                <div class="card-rows">
+
+                    {% for rev in rev %}
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="font-weight-normal mb-1" style="font-weight:500; color: #222;">{{ rev.patient.user.first_name }} {{rev.patient.user.last_name}}</h5>
+                                <span class="font-weight-light mb-1">{{ rev.review }}</span>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+             {% else %}
+
+                    No Reviews!
+
+             {% endif %}
+
+            {% else %}
+
+                You are not authorized here!
+
+            {% endif %}
+
+    {% else %}
+
+            You are not authorized here!
+
+         {% endif %}
+
+    {% endif %}
+
+
+
+</div>
+
+{% endblock context %}

@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}
+    View
+{% endblock title %}
+
+{% block context %}
+
+    <div class="container-fluid" style="margin-top: -72px;">
+
+    {% if user.is_authenticated %}
+
+        {% if user.is_doctor %}
+
+            {% if doctor.user.id == request.user.id %}
+
+                {% if messages %}
+                {% for messages in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-bottom: 20px;">
+                     {{messages}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true" style="color: #1b9e64">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <div class="card-rows">
+                <div class="card">
+					<div class="card-body" style="margin-left: 24px; padding-bottom:120px;">
+						<div class="customize-input float-right" style="padding-top: 24px; padding-right: 16px;">
+                            <a href="{% url 'updateDocProfile' doctor.user.id %}"><button type="submit" class="btn btn-light" style="padding:8px 24px;">Edit</button></a>
+                        	</div>
+						<h2 class="text-dark font-weight-medium" style="padding-bottom: 80px; padding-top: 24px;">Profile</h2>
+
+						<div class="row">
+								<img src="{{ doctor.user.header_image.url }}" alt="user" class="rounded-circle " style="margin: 0 340px;width: 200px;height:200px;">
+						</div>
+
+						<div class="row" style="margin: 0 350px; padding-top: 24px;">
+							<span class="text-dark font-weight-medium" style="text-align: center; font-size:22px;">Dr.  {{ doctor.user.first_name }}{% if doctor.user.middle_name %} {{ doctor.user.middle_name }}{% endif %} {{ doctor.user.last_name }}</span>
+						</div>
+
+                    <div style="margin-left:50px;margin-top: 50px;">
+                    <table  width="100%" style="align:center;text-align: left;margin-right: 120px">
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Bio</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark"><div rows="3" style="width:700px">{% if doctor.bio %}{{ doctor.bio}}{% else %}-{% endif %}</div></label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Age</label>
+                                    <span class="text-dark font-weight-light" style="font-size: 14px;padding-left: 8px;">(in years)</span>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ age}} </label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Registration Id</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ doctor.doctor_reg_id }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Gender</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ doctor.user.gender}}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Contact No</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ doctor.user.contact_no }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Email</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ doctor.user.email }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Specialization</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark ">{{ doctor.specialization }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Fees</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ doctor.fees }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Experience</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ doctor.experience }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;">
+											<label class="text-dark font-weight-medium">Degrees</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ doctor.degrees }} <a href="{% url 'viewPdf' doctor.user.id %}" target="_blank" rel="noopener noreferrer" class="text-dark font-weight-light" style="font-size: 14px;padding-left: 4px;"><span>(Click to View Degrees)</span></a></label>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5">
+                                <div style="padding-bottom: 8px;">
+                                    <label class="text-dark font-weight-medium">Chamber Address</label>
+                                </div>
+                            </td>
+                            <td class="col-lg-7">
+                                <div style="padding-bottom: 8px;padding-left: 15px;">
+                                <label class="text-dark">{{ doctor.chamber_address }}</label>
+                            </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    </div>
+
+                    </div>
+                </div>
+                </div>
+
+
+
+            {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+            {% endif %}
+
+    {% else %}
+
+            <h5>You are not authorized here!</h5>
+
+         {% endif %}
+
+    {% endif %}
+
+
+
+    </div>
+
+{% endblock context %}

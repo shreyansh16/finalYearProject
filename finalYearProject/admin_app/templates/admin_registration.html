@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}
+    AdminHome
+{% endblock title %}
+
+        {% block context %}
+
+            <div class="container-fluid" style="margin-top: -72px;">
+             {% if user.is_admin and user.is_staff %}
+
+                 {% if messages %}
+                    {% for messages in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                         {{messages}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true" style="color: #1b9e64">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                 {% endif %}
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card" style="margin:24px;">
+                            <div class="card-body">
+                                <h4 class="card-title" style="padding-bottom: 30px;">Add Admin</h4>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-body">
+                                        <label for="id_email">Email</label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="email" class="form-control" name="email" id="id_email" placeholder="Enter Email" required>
+                                                </div>
+											</div>
+										</div>
+										<div class="form-body">
+                                        <label for="id_username">Username </label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                    <input type="text" class="form-control"
+                                                        name="username" id="id_username" maxlength="150" autocapitalize="none" autocomplete="username" placeholder="Enter Username" required>
+                                                </div>
+											</div>
+										</div>
+										<div class="form-body">
+                                        	<label for="id_password1">Password </label>
+											<div class="row">
+												<div class="col-md-4">
+												  <div class="form-group">
+														<input type="password" class="form-control" name="password1" id="id_password1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain atleast 1 uppercase, 1 lowercase letter and minimum password length should be 8" autocomplete="new-password" placeholder="Password" required>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-body">
+                                        	<label for="id_password2">Confirm Password </label>
+											<div class="row">
+												<div class="col-md-4">
+												  <div class="form-group">
+														<input type="password" class="form-control" name="password2" id="id_password2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain atleast 1 uppercase, 1 lowercase letter and minimum password length should be 8" autocomplete="new-password" placeholder="Re-Enter Password" required>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								  <div class="form-actions" style="margin-top: 24px;">
+                                        <div class="text-left">
+                                            <button type="submit" class="btn btn-info">Next</button>
+                                            <button type="reset" class="btn btn-link">Reset</button>
+                                        </div>
+                                    </div>
+							  </form>
+						  </div>
+						</div>
+					</div>
+			</div>
+
+         {% else %}
+
+         <h3>You are not authorized here!</h3>
+
+    {% endif %}
+            </div>
+    {% endblock context %}

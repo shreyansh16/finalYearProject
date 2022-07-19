@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    DoctorHome
+{% endblock title %}
+
+
+        {% block context %}
+
+            <div class="container-fluid">
+
+            {% if user.is_doctor %}
+
+            {% if appointment.doctor.user.id == request.user.id %}
+
+                <!--<form action="{% url 'cancelAppointment1' appid %}" method = "post">
+                {% csrf_token %}
+                <br>Are You Sure?
+                <br>
+                <input type="submit" value="Yes!">
+            </form>-->
+
+                <h2>Are You Sure you want to cancel the Appointment?</h2>
+
+                <a href="{% url 'cancelAppointment1' appid %}"><button class="btn btn-link" style="color: green; font-size: 16px;">Yes</button></a>
+
+                <a href="{% url 'doctorHome' user.id %}"><button class="btn btn-link" style="color: red; font-size: 16px;">No</button></a>
+
+                {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+                {% endif %}
+
+
+
+            {% else %}
+
+            You are not authorized here!
+
+            {% endif %}
+
+            </div>
+        {% endblock context %}
+

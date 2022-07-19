@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}
+    AdminHome
+{% endblock title %}
+
+        {% block context %}
+
+            <div class="container-fluid" style="margin-top: -72px;">
+
+            {% if user.is_admin %}
+
+            <div class="row">
+                    <div class="col-12">
+                        <div class="card" style="margin:24px;">
+                            <div class="card-body">
+                                <h4 class="card-title" style="padding-bottom: 30px;">Edit Specialisation</h4>
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-body">
+                                        <label for="id_category">Category </label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                    <input type="text" class="form-control" id="id_category"
+                                                            name="category" value="{{ spl.category }}" required>
+                                                </div>
+											</div>
+										</div>
+								  </div>
+
+									<div class="form-body">
+                                        <label for="inputGroupFile01">Header Image </label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                   <div class="input-group mb-3">
+													 <!--<div class="custom-file">
+															<input type="file" class="custom-file-input" id="inputGroupFile01" name="header_image" accept="image/*">
+															<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                     </div>-->
+                                                       <div class="custom-file">
+                                                            <label class="custom-file-label text-left" for="id_header_image" id="file">Choose File</label>
+                                                            <input name="header_image" id="id_header_image" type="file" accept ="image/*" class="custom-file-input" value=""/>
+                                                        </div>
+												  </div>
+                                                    <small> Currently: <a href="{{ spl.header_image.url }}" target="_blank" rel="noopener noreferrer">{{ spl.header_image.url }}</a></small>
+                                                </div>
+											</div>
+										</div>
+									</div>
+								  <div class="form-actions" style="margin-top: 24px;">
+                                        <div class="text-left">
+                                            <button type="submit" class="btn btn-info">Update</button>
+                                            <!--<button type="reset" class="btn btn-link">Cancel</button>-->
+                                        </div>
+                                    </div>
+							  </form>
+						  </div>
+						</div>
+					</div>
+			</div>
+
+                <script type="text/javascript">
+                    $('#id_header_image').on("change",function() {
+                  console.log("change fire");
+                 var i = $(this).prev('label').clone();
+                  var file = $('#id_header_image')[0].files[0].name;
+               console.log(file);
+                  $(this).prev('label').text(file);
+
+                });
+
+                </script>
+
+            {% else %}
+
+            You are not authorized here!
+
+            {% endif %}
+
+            </div>
+        {% endblock context %}
+

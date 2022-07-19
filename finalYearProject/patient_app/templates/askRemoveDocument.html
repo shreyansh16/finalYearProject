@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+    DoctorHome
+{% endblock title %}
+
+
+        {% block context %}
+
+            <div class="container-fluid">
+
+            {% if user.is_patient %}
+
+                {% if patient.user.id == request.user.id %}
+
+                    <!--<form action="{% url 'removeDocument1' d.id patient.user.id %}" method = "post">
+                        {% csrf_token %}
+                        <br>Are You Sure?
+                        <br>
+                        <input type="submit" value="Yes!">
+                        </form>
+
+             <a href="{% url 'documentUpload' user.id  %}"><input type="button" value="No!"/></a>-->
+
+             <h2>Are You Sure you want to remove the Document?</h2>
+
+             <a href="{% url 'removeDocument1' d.id patient.user.id %}"><button class="btn btn-link" style="color: green; font-size: 16px;">Yes</button></a>
+
+             <a href="{% url 'documentUpload' user.id  %}"><button class="btn btn-link" style="color: red; font-size: 16px;">No</button></a>
+
+
+
+            {% else %}
+
+                    <h5>You are not authorized here!</h5>
+            {% endif %}
+
+
+            {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+            {% endif %}
+
+            </div>
+        {% endblock context %}
+

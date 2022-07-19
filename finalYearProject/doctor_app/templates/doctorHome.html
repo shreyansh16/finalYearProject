@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}
+    DoctorHome
+{% endblock title %}
+
+        {% block breadCrumb %}
+            <div class="page-breadcrumb" style="margin-top: -72px;">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Welcome, Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }}!</h3>
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><a href="{% if user.is_doctor %}
+                                                                            {% url 'doctorHome' user.id %}
+                                                                        {% elif user.is_patient %}
+                                                                            {% url 'patientHome' %}
+                                                                        {% else %}
+                                                                            {% url 'adminHome' %}
+                                                                        {% endif %}">
+                                            Dashboard</a>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock breadCrumb %}
+
+
+        {% block context %}
+
+            <div class="container-fluid">
+
+            {% if user.is_doctor %}
+
+                {% if user.id == request.user.id %}
+
+                    {% if appointment %}
+
+                        <div class="card-rows">
+				  <div class="card">
+					<div class="card-body">
+						<h3 class="card-title mt-5"><i
+                                        class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline" style="padding-top: -20px;"></i>Upcoming Appointments</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Appointment Date</th>
+                                                <th scope="col">Appointment Time</th>
+                                                <th scope="col">Patient Name</th>
+												<th scope="col">Gender</th>
+												<th scope="col">Ph. No</th>
+												<th scope="col">Age</th>
+												<th scope="col" style="align-content :center;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                                {% for app in appointment %}
+
+                                                <tr>
+                                                <td>{{ app.a_date }}</td>
+                                                <td>{{ app.a_time }}</td>
+                                                <td>{{ app.p_first_name }} {{ app.p_last_name }}</td>
+												<td>{{ app.p_gender }}</td>
+												<td>{{ app.p_contact_no }}</td>
+												<td>{{ app.p_age }}</td>
+
+												{% if app.is_marked %}
+                                                    <td style="color: green; font-size: 16px;">Marked as Done</td>
+                                                {% else %}
+                                                    {% if  current_time >= app.a_time %}
+                                                        <td><a href="{% url 'doneAppointment' app.id %}"><button class="btn btn-link" style="color: green; font-size: 16px;">Mark as Done</button></a><br><a href="{% url 'cancelAppointment' app.id %}"><button class="btn btn-link" style="color: red; font-size:16px;">Absent</button></a></td>
+                                                    {% else %}
+                                                        <td><a href="{% url 'cancelAppointment' app.id %}"><button class="btn btn-link" style="color: red; font-size:16px;">Cancel</button></a></td>
+                                                    {% endif %}
+
+                                                {% endif %}
+
+                                                </tr>
+
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+					</div>
+				  </div>
+				</div>
+
+
+                        <br><br>
+
+
+
+                    {% else %}
+
+                        No Current/Today Appointments !
+
+                    {% endif %}
+
+                    <br><br>
+
+                    {% if pending %}
+
+                        <div class="card-rows">
+				  <div class="card">
+					<div class="card-body">
+						<h3 class="card-title mt-5"><i
+                                        class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline" style="padding-top: -20px;"></i>Pending List</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Appointment Date</th>
+                                                <th scope="col">Appointment Time</th>
+                                                <th scope="col">Patient Name</th>
+												<th scope="col">Gender</th>
+												<th scope="col">Ph. No</th>
+												<th scope="col">Age</th>
+                                                <th scope="col" style="align-content :center;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for app in pending %}
+                                                <tr>
+
+                                                <td>{{ app.a_date }}</td>
+                                                <td>{{ app.a_time }}</td>
+                                                <td>{{ app.p_first_name }} {{ app.p_last_name }}</td>
+												<td>{{ app.p_gender }}</td>
+												<td>{{ app.p_contact_no }}</td>
+												<td>{{ app.p_age }}</td>
+                                                <td><a href="{% url 'doneAppointment' app.id %}"><button class="btn btn-link" style="color: green; font-size: 16px;">Mark as Done</button></a><br><a href="{% url 'cancelAppointment' app.id %}"><button class="btn btn-link" style="color: red; font-size:16px;">Absent</button></a></td>
+
+                                                </tr>
+                                                {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+					</div>
+				  </div>
+				</div>
+
+                    {% endif %}
+
+                {% else %}
+
+                    You are not authorized here!
+
+                {% endif %}
+
+
+            {% else %}
+
+            You are not authorized here!
+
+            {% endif %}
+
+            </div>
+
+        {% endblock context %}
+

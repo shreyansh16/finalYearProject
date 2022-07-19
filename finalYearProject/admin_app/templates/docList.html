@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+    DoctorList
+{% endblock title %}
+
+        {% block context %}
+
+            <div class="container-fluid" style="margin-top: -72px;">
+
+            {% if user.is_authenticated %}
+
+            {% if user.is_admin %}
+
+            {% if doctor %}
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card" style=" left:24px; width: 980px;">
+                                <div class="card-body">
+                                    <h3 class="card-title mt-5"><i
+                                            class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline" style="padding-top: -20px;"></i>Doctor List </h3>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Specialisation</th>
+                                                    <th scope="col">Degree</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                {% for doctor in doctor %}
+                                                <tr>
+                                                    <td><a href="{% url 'ratings' doctor.user.id %}">Dr. {{doctor.user.first_name}} {{ doctor.user.last_name }}</a></td>
+                                                    <td>{{doctor.specialization}}</td>
+                                                    <td>{{ doctor.degrees }}</td>
+
+                                                </tr>
+
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+
+                    {% if count >= 7 %}
+
+                    <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+                {% if doctor.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?pg={{doctor.previous_page_number}}">{{doctor.previous_page_number}}</a></li>
+                {% endif %}
+                    <li class="page-item"><a class="page-link" href="?pg={{doctor.number}}">{{doctor.number}}</a></li>
+                {% if doctor.has_next %}
+                    <li class="page-item"><a class="page-link" href="?pg={{doctor.next_page_number}}">{{doctor.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="?pg={{doctor.paginator.num_pages}}">>></a>
+                </li>
+                    </ul>
+                </nav>
+
+                {% endif  %}
+
+            {% else %}
+
+                <h5>No such Doctor with such Specialization exists!</h5>
+
+             {% endif %}
+
+            {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+            {% endif %}
+
+            {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+            {% endif %}
+
+            </div>
+
+        {% endblock context %}

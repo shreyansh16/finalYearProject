@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Admin Home
+{% endblock title %}
+
+        {% block context %}
+        <div class="container-fluid" style="margin-top: -72px;">
+
+        {% if user.is_admin %}
+
+        <div class="flex-container">
+
+         {% for cat in specialization %}
+
+          <div class="card">
+            <img class="card-img-top" height="120" width="200" src="{{ cat.header_image.url }}" alt="{{ cat }}">
+            <div class="card-body text-center">
+              <a href="{% url 'docList' cat %}" class="stretched-link" style="color: #222;"><p class="card-text">{{ cat }}</p></a>
+            </div>
+          </div>
+
+         {% endfor%}
+
+        </div>
+
+         {% if count >= 8 %}
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+                {% if specialization.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?pg={{specialization.previous_page_number}}">{{specialization.previous_page_number}}</a></li>
+                {% endif %}
+                    <li class="page-item"><a class="page-link" href="?pg={{specialization.number}}">{{specialization.number}}</a></li>
+                {% if specialization.has_next %}
+                    <li class="page-item"><a class="page-link" href="?pg={{specialization.next_page_number}}">{{specialization.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="?pg={{specialization.paginator.num_pages}}">>></a>
+                </li>
+                    </ul>
+                </nav>
+          {% endif %}
+
+        {% else %}
+
+        <h5>You are not authorized here!</h5>
+
+        {% endif %}
+
+
+        </div>
+
+        {% endblock context %}
+

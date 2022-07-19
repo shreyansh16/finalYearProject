@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>GetSetBook Landing Page</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+
+		<!-- animate css -->
+		<link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+		<!-- bootstrap css -->
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+		<!-- google font -->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,800' rel='stylesheet' type='text/css'>
+
+		<!-- custom css -->
+		<link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
+
+	</head>
+	<body>
+		<!-- start navigation -->
+		<nav class="navbar navbar-default navbar-fixed-top templatemo-nav" role="navigation">
+			<div class="container">
+				<img src="{% static 'images/Website Logo-2.png' %}"/>
+			</div>
+		</nav>
+		<!-- end navigation -->
+
+		<!-- start home -->
+		<section id="home">
+			<div class="overlay">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-10 wow fadeIn" data-wow-delay="0.3s">
+							<h1 class="text-upper" style="color:#fff">Welcome to GetSetBook</h1>
+							<p class="tm-white" style="color:#fff">Your one stop for a great doctor consultation experience.</p>
+							<!--<img src="images/starter.png" class="img-responsive" alt="home img">-->
+							<a href="{% url 'login' %}" class="btn solid arrow">Let's go</a>
+						</div>
+						<div class="col-md-1"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- end home -->
+
+		<!-- start divider -->
+		<section id="divider">
+			<div class="container">
+				<div class="row">
+					<h2 class="fadeInUp wow" style="padding-bottom: 80px;">4 Easy Ways to Get Your Solution</h2>
+					<div class="col-md-3 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
+						<img src="{% static 'images/doc_profile.svg' %}"/>
+						<i class="fa"></i>
+						<h3 class="text-uppercase">Check Doctor’s Profile</h3>
+						<p>View the doctors' profile you wish to consult.Check their details and their reviews.</p>
+					</div>
+					<div class="col-md-3 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
+						<img src="{% static 'images/request_consult.svg' %}"/>
+						<i class="fa"></i>
+						<h3 class="text-uppercase">Request Consultation</h3>
+						<p>Get a break from tedious phone calls to make appointment. Book an appointment easily through our website for yourself or your loved one.</p>
+					</div>
+					<div class="col-md-3 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
+						<img src="{% static 'images/get_consult.svg' %}"/>
+						<i class="fa"></i>
+						<h3 class="text-uppercase">Receive Consultation</h3>
+						<p>Get easy updates on consultations making the process very easy and seamless. Keep a track of all your consultations fuss free!</p>
+					</div>
+					<div class="col-md-3 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
+						<img src="{% static 'images/diagnosis.svg' %}"/>
+						<i class="fa"></i>
+						<h3 class="text-uppercase">Get Your Diagnosis</h3>
+						<p>Consult our highly skilled doctors and get your get your diagnosis in a jiffy.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- end divider -->
+
+		<!-- start feature -->
+		<section id="feature">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 wow fadeInLeft" data-wow-delay="0.6s">
+						<h2 class="text-uppercase" style="color:#fff;font-size: 42px;">A Huge Range of Professionals</h2>
+						<!--<p style="color:#fff;">No of Registered Doctors: {{ doctor_count }}</p>-->
+					</div>
+					<div class="col-md-6 wow fadeInRight" data-wow-delay="0.6s">
+						<p class="text-grad wht-grad" style="margin-top: -16px; font-size:80px; font-weight: 700;">
+							43+
+						</p>
+						<p style="margin-top: -24px; font-size: 24px; color: #fff;">Doctors registered on our platform.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- end feature -->
+
+		<!-- start feature1 -->
+		<section id="feature1">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+						<p class="text-grad prpl-grad" style="margin-top: -16px; font-size:80px; font-weight: 700;">
+							{{ appointment_count }}+
+						</p>
+						<p style="margin-top: -32px; font-size: 16px; color: #5F76E8;">Consultations done.</p>
+					</div>
+					<div class="col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+						<h2 class="text-uppercase">Providing Professional Consultations</h2>
+						<p>Get consultations from a wide range of very qualified doctors in a very seamless manner.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- end feature1 -->
+
+		<!-- start feature2 -->
+		<section id="feature2">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+						<img src="{% static 'images/growing-ub.svg' %}" class="img-responsive" alt="feature img">
+					</div>
+					<div class="col-md-6 wow fadeInUp" data-wow-delay="0.6s" style="margin-top: 24px;">
+						<h2 class="text-uppercase" style="color:#fff; font-size:42px;">Growing User Base</h2>
+						<p style="color:#fff;">Total Users On Our Platform: {{ total_users }}</p>
+						<br>
+						<p></p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- end feature2 -->
+
+		<!-- start founder -->
+		<section id="founder">
+			<div class="container">
+				<div class="row">
+					<h2 class =" fadeInUp wow" style="padding-bottom: 80px;">Our Founders</h2>
+					<div class="col-md-3 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
+						<img src="{% static 'images/founder1.png' %}"/>
+						<i class="fa"></i>
+						<h3 class="text-uppercase">Shreyansh Doshi</h3>
+					</div>
+					<div class="col-md-3 wow fadeInUp templatemo-box " data-wow-delay="0.3s">
+						<img src="{% static 'images/founder2.png' %}"/>
+						<i class="fa"></i>
+						<h3 class="text-uppercase">Soumil Basak</h3>
+					</div>
+					<div class="col-md-3 wow fadeInUp templatemo-box " data-wow-delay="0.3s">
+						<img src="{% static 'images/founder3.png' %}"/>
+						<i class="fa"></i>
+						<h3 class="text-uppercase">Anshu Jain</h3>
+					</div>
+					<div class="col-md-3 wow fadeInUp templatemo-box " data-wow-delay="0.3s">
+						<img src="{% static 'images/founder4.png' %}"/>
+						<i class="fa"></i>
+						<h3 class="text-uppercase">Sukanya Joshi</h3>
+					</div>
+					<a href="{% url 'login' %}" class="btn solid arrow wow fadeInUp">Let's go</a>
+
+
+				</div>
+			</div>
+		</section>
+		<!-- end founder -->
+
+		<!-- start footer-->
+		  <footer class="bg-white fadeIn wow">
+			<div class="container py-5">
+			  <div class="row py-4">
+
+				<div class="col-lg-4 col-md-6 mb-4 mb-lg-0"><img src="{% static 'img/logo.png' %}" alt="" width="180" class="mb-3">
+					<h6 class="text-uppercase font-weight-bold mb-4">Contact Us</h6>
+				  <p class="font-italic text-muted" style="color:#fff;">Phone: +91 98317 78320</p>
+				  <p class="font-italic text-muted" style="color:#fff;">Email: support@getsetbook.com</p>
+				  <p class="font-italic text-muted" style="color:#fff;">Address: Chowbaga Rd, Anandapur, Mundapara,<br> Kolkata, West Bengal 700107</p>
+				  <ul class="list-inline mt-4">
+					<li class="list-inline-item"><a href="#" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></li>
+					<li class="list-inline-item"><a href="#" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></li>
+					<li class="list-inline-item"><a href="#" target="_blank" title="instagram"><i class="fa fa-instagram"></i></a></li>
+					<li class="list-inline-item"><a href="#" target="_blank" title="pinterest"><i class="fa fa-pinterest"></i></a></li>
+					<li class="list-inline-item"><a href="#" target="_blank" title="vimeo"><i class="fa fa-vimeo"></i></a></li>
+				  </ul>
+				</div>
+				<div class="col-lg-2 col-md-6 mb-4 mb-lg-0" style="padding-left: 30px;">
+				  <h6 class=" text-uppercase font-weight-bold mb-4" style="padding-top: 10px;">Quick Links</h6>
+				  <ul class="list-unstyled mb-0">
+					<li class="mb-2"><a href="#" class="text-muted" style="color:#fff;">About</a></li>
+					<li class="mb-2"><a href="#" class="text-muted" style="color:#fff;">Blog</a></li>
+					<li class="mb-2"><a href="#" class="text-muted" style="color:#fff;">Careers</a></li>
+				  </ul>
+				</div>
+				<div class="white col-lg-2 col-md-6 mb-4 mb-lg-0">
+				  <h6 class="text-uppercase font-weight-bold mb-4"style="padding-top: 10px;">More</h6>
+				  <ul class="list-unstyled mb-0">
+					<li class="mb-2"><a href="#" class="text-muted" style="color:#fff;">Help</a></li>
+					<li class="mb-2"><a href="#" class="text-muted" style="color:#fff;">Privacy Policy</a></li>
+					<li class="mb-2"><a href="#" class="text-muted" style="color:#fff;">Terms & Conditions</a></li>
+					<li class="mb-2"><a href="#" class="text-muted" style="color:#fff;">Healthcare Directory</a></li>
+				  </ul>
+				</div>
+
+		  </footer>
+		  <!-- End -->
+
+		</body>
+
+
+		<script src="{% static 'js/jquery.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/wow.min.js' %}"></script>
+		<script src="{% static 'js/jquery.singlePageNav.min.js' %}"></script>
+		<script src="{% static 'js/custom.js' %}"></script>
+	</body>
+</html>

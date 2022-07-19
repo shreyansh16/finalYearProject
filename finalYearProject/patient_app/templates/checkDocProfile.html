@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}
+    View
+{% endblock title %}
+
+{% block context %}
+
+    <div class="container-fluid" style="margin-top: -72px;">
+
+    {% if user.is_authenticated %}
+
+        {% if user.is_patient %}
+
+    <div class="card-rows">
+					<div class="card">
+						<div class="card-body" style="margin-left: 24px; padding-bottom:120px;">
+							<div class="customize-input float-right" style="padding-top: 24px; padding-right: 16px;">
+								<a href="{% url 'bookAppointment' doctor.user.id request.user.id %}"><button type="submit" class="btn btn-light" style="padding:8px 24px;">Book Appointment</button></a>
+								</div>
+							<h2 class="text-dark font-weight-medium" style="padding-bottom: 80px; padding-top: 24px;">Profile</h2>
+
+							<div class="row">
+									<img src="{{ doctor.user.header_image.url }}" alt="user" class="rounded-circle " style="margin: 0 340px;width: 200px; height:200px;">
+							</div>
+
+							<div class="row align-content-center" style="margin: 0 350px; padding-top: 24px;">
+								<span class="text-center text-dark font-weight-medium" style="text-align: center; font-size:22px;">Dr. {{ doctor.user.first_name }}{% if doctor.user.middle_name %} {{ doctor.user.middle_name }}{% endif %} {{ doctor.user.last_name }}</span>
+							</div>
+                            <div class="row" style="margin: 16px 375px;">
+							<div style="display: inline-flex;">
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-thumb-up svg-icon mr-2 ml-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#7c7c7c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+								    <path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" />
+								</svg>
+								<span>Like: {{ total_likes }}</span>
+							</div>
+						</div>
+						<div style="margin-left:50px;margin-top: 50px;">
+						<table  width="100%" style="text-align: left;margin-right: 120px">
+
+							<tr>
+                                <td class="col-lg-5">
+                                    <div style="padding-bottom: 8px;">
+                                        <label class="text-dark font-weight-medium">Bio</label>
+                                    </div>
+                                </td>
+                                <td class="col-lg-7">
+                                    <div style="padding-bottom: 8px;padding-left: 15px;">
+                                    <label class="text-dark"><div rows="3" style="width:700px">{% if doctor.bio %}{{ doctor.bio}}{% else %}-{% endif %}</div></label>
+                                </div>
+                                </td>
+                            </tr>
+							<tr>
+								<td class="col-lg-5">
+									<div style="padding-bottom: 8px;">
+										<label class="text-dark font-weight-medium">Specialization</label>
+									</div>
+								</td>
+								<td class="col-lg-7">
+									<div style="padding-bottom: 8px;padding-left: 15px;">
+									<label class="text-dark ">{{ doctor.specialization }}</label>
+								</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col-lg-5">
+									<div style="padding-bottom: 8px;">
+										<label class="text-dark font-weight-medium">Fees</label>
+									</div>
+								</td>
+								<td class="col-lg-7">
+									<div style="padding-bottom: 8px;padding-left: 15px;">
+									<label class="text-dark">{{ doctor.fees }}</label>
+								</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col-lg-5">
+									<div style="padding-bottom: 8px;">
+										<label class="text-dark font-weight-medium">Experience</label>
+									</div>
+								</td>
+								<td class="col-lg-7">
+									<div style="padding-bottom: 8px;padding-left: 15px;">
+									<label class="text-dark">{{ doctor.experience }}</label>
+								</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col-lg-7">
+									<div style="padding-bottom: 8px;">
+												<label class="text-dark font-weight-medium">Degrees</label>
+									</div>
+								</td>
+								<td class="col-lg-5">
+									<div style="padding-bottom: 8px;padding-left: 15px;">
+									<label class="text-dark">{{ doctor.degrees }}</label>
+								</div>
+								</td>
+							</tr>
+						</table>
+
+						</div>
+
+						</div>
+					</div>
+				</div>
+
+                {% if appointment %}
+
+				<div class="card-rows">
+					<div class="card">
+					  <div class="card-body">
+						  <h4 class="text-dark font-weight-medium mb-1">Rate and Review the Doctor</h4>
+						  <br>
+
+                {% if not has_likes %}
+
+                    <a href="{% url 'likeDoc' doctor.user.id request.user.id %}"><button class="btn btn-outline-success" data-mdb-toggle="button" autocomplete="off" id="green" style="margin-right: 24px; cursor: pointer;">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                           <path fill="none" d="M0 0h24v24H0z"/>
+                           <path d="M14.6 8H21a2 2 0 0 1 2 2v2.104a2 2 0 0 1-.15.762l-3.095 7.515a1 1 0 0 1-.925.619H2a1 1 0 0 1-1-1V10a1 1 0 0 1 1-1h3.482a1 1 0 0 0 .817-.423L11.752.85a.5.5 0 0 1 .632-.159l1.814.907a2.5 2.5 0 0 1 1.305 2.853L14.6 8zM7 10.588V19h11.16L21 12.104V10h-6.4a2 2 0 0 1-1.938-2.493l.903-3.548a.5.5 0 0 0-.261-.571l-.661-.33-4.71 6.672c-.25.354-.57.644-.933.858zM5 11H3v8h2v-8z" fill="rgba(32,193,98,1)"/>
+                       </svg>
+                    </button></a>
+
+                    {% else %}
+
+                    <a href="{% url 'likeDoc' doctor.user.id request.user.id %}">
+                        <button class="btn btn-outline-success" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M2 9h3v12H2a1 1 0 0 1-1-1V10a1 1 0 0 1 1-1zm5.293-1.293l6.4-6.4a.5.5 0 0 1 .654-.047l.853.64a1.5 1.5 0 0 1 .553 1.57L14.6 8H21a2 2 0 0 1 2 2v2.104a2 2 0 0 1-.15.762l-3.095 7.515a1 1 0 0 1-.925.619H8a1 1 0 0 1-1-1V8.414a1 1 0 0 1 .293-.707z" fill="#20C162"/>
+                        </svg>
+                        </button>
+                    </a>
+
+
+                    {% endif %}
+
+                {% if not has_dislikes %}
+
+                    <a href="{% url 'dislikeDoc' doctor.user.id request.user.id %}"><button class="btn btn-outline-danger" data-mdb-toggle="button" autocomplete="off" style="cursor: pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M9.4 16H3a2 2 0 0 1-2-2v-2.104a2 2 0 0 1 .15-.762L4.246 3.62A1 1 0 0 1 5.17 3H22a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3.482a1 1 0 0 0-.817.423l-5.453 7.726a.5.5 0 0 1-.632.159L9.802 22.4a2.5 2.5 0 0 1-1.305-2.853L9.4 16zm7.6-2.588V5H5.84L3 11.896V14h6.4a2 2 0 0 1 1.938 2.493l-.903 3.548a.5.5 0 0 0 .261.571l.661.33 4.71-6.672c.25-.354.57-.644.933-.858zM19 13h2V5h-2v8z" fill="rgba(249,48,26,1)"/>
+                        </svg>
+                      </button></a>
+
+
+                    {% else %}
+
+                    <a href="{% url 'dislikeDoc' doctor.user.id request.user.id %}"><button class="btn btn-outline-danger" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M22 15h-3V3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zm-5.293 1.293l-6.4 6.4a.5.5 0 0 1-.654.047L8.8 22.1a1.5 1.5 0 0 1-.553-1.57L9.4 16H3a2 2 0 0 1-2-2v-2.104a2 2 0 0 1 .15-.762L4.246 3.62A1 1 0 0 1 5.17 3H16a1 1 0 0 1 1 1v11.586a1 1 0 0 1-.293.707z" fill="rgba(249,48,26,1)"/>
+                        </svg>
+                    </button></a>
+
+
+                    {% endif %}
+
+                        <br><br>
+
+                        &nbsp;&nbsp;<a href="{% url 'giveReview' doctor.user.id %}" class="btn btn-link">Give Review</a>
+
+					  </div>
+					</div>
+				  </div>
+
+                {% endif %}
+
+                {% if reviews %}
+
+				<hr style="margin-top: 16px; padding-bottom: 16px;">
+
+
+
+                <h4 class="text-dark font-weight-medium mb-1" style="right:16px;">Reviews:</h4>
+                <div class="d-flex align-items-center font-weight-lighter" style="font-size: 14px; padding-bottom:30px;">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item">Total - {{ count }}</li>
+                    </ol>
+                </div>
+
+
+
+                <div class="card-rows">
+
+                    {% for rev in reviews %}
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="font-weight-normal mb-1" style="font-weight:500; color: #222;">{{ rev.patient.user.first_name }} {{rev.patient.user.last_name}}</h5>
+                                <span class="font-weight-light mb-1">{{ rev.review }}</span>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                    {% else %}
+
+                        No reviews!
+
+                    {% endif %}
+
+
+        {% else %}
+
+            You are not authorized here!
+
+        {% endif %}
+
+    {% endif %}
+
+
+
+    </div>
+
+{% endblock context %}

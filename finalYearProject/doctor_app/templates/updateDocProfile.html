@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Update
+{% endblock title %}
+
+{% block context %}
+
+    <div class="container-fluid" style="margin-top: -72px;">
+
+    {% if user.is_authenticated%}
+
+        {% if user.is_doctor %}
+
+            {% if user.id == request.user.id %}
+
+            <div class="card">
+					<div class="card-body" style="margin-left: 24px; padding-bottom:120px;">
+						<h2 class="text-dark font-weight-medium" style="padding-bottom: 80px; padding-top: 24px;">Edit Profile</h2>
+						<form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+							<div class="row">
+								<div class="form-body">
+									<img src="{{ user.header_image.url }}" alt="user" class="rounded-circle " style="margin: 0 350px;width: 200px;height:200px;">
+									<!--<button class="btn btn-outline-light text-dark" style="margin-left:340px; margin-top: 24px;">Change Image</button>-->
+                                    <div class="row" style="padding-top: 24px;padding-left:300px;">
+                                    <div class="form-group">
+                                                   <div class="input-group mb-3">
+													 <div class="custom-file">
+															<input type="file" class="custom-file-input" name="header_image" id="id_header_image" accept="image/*">
+															<label class="custom-file-label" for="id_header_image">Change Profile Picture</label>
+													 </div>
+												  </div>
+                                    </div>
+                                    </div>
+                                </div>
+								<div class="form-body" style="margin-left: 16px;">
+									<label style="padding-top: 24px; padding-left:56px;" for="id_bio">Bio</label>
+									<div class="media" style="padding-left: 56px;">
+										<br>
+										<textarea class="form-control" id="id_bio" rows="3" name="bio" style="width:710px;">{{ user.doctor.bio }}</textarea>
+									</div>
+								</div>
+							</div>
+                            <div class="row" style="padding-top: 32px; margin-left:56px;">
+                                <div class="form-body">
+                                    <label for="id_first_name">Name </label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                        name="first_name" id="id_first_name" value="{{ user.first_name }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                    name="middle_name" value="{{ user.middle_name }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                    name="last_name" value="{{ user.last_name }}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 8px;">
+                                        <div class="col-md-6">
+                                            <label for="id_email">Email</label>
+                                            <div class="form-group">
+                                                <input type="email" class="form-control"
+                                                    name="email" id="id_email" value="{{ user.email }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="id_contact_no">Contact</label>
+                                            <div class="form-group">
+                                                <input type="tel" class="form-control"
+                                                    name="contact_no" id="id_contact_no" pattern="[6789]{1}[0-9]{9}" value="{{ user.contact_no }}" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding-top: 8px;">
+
+                                        <div class="col-md-6">
+                                            <label style="padding-bottom: 8px;">Gender</label>
+                                            <div class="form-group">
+                                                {% if user.gender == "Male" %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender1" value="Male" checked>
+                                                        <label class="form-check-label font-weight-light" for="gender1" select>Male</label>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender1" value="Male">
+                                                        <label class="form-check-label font-weight-light" for="gender1" select>Male</label>
+                                                    </div>
+                                                {% endif %}
+                                                {% if user.gender == "Female" %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender2" value="Female" checked>
+                                                        <label class="form-check-label font-weight-light" for="gender2" select>Female</label>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender2" value="Female">
+                                                        <label class="form-check-label font-weight-light" for="gender2" select>Female</label>
+                                                    </div>
+                                                {% endif %}
+                                                {% if user.gender == "Others" %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender3" value="Others" checked>
+                                                        <label class="form-check-label font-weight-light" for="gender3" select>Others</label>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="gender3" value="Others">
+                                                        <label class="form-check-label font-weight-light" for="gender3" select>Others</label>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                        <div class="row" style="padding-top: 8px;">
+                                        <div class="col-md-4">
+                                            <label>Specialisation</label>
+                                            {% if not user.doctor.specialization %}
+                                            <div class="custom-select" style="margin-bottom: 20px;">
+                                                <select name="sp" id="sp" required>
+                                                  <option value="">--Select--</option>
+                                                      {% for specialization in specialization %}
+                                                          <option value="{{ specialization }}">{{ specialization }}</option>
+                                                      {% endfor %}
+                                                </select>
+                                            </div>
+                                            {% else %}
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control"
+                                                        value="{{ user.doctor.specialization }}" style="border-color: #dadada;" disabled>
+                                                    <input type="hidden" name="sp" value="{{ user.doctor.specialization }}"/>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="id_fees">Fees</label>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control"
+                                                     name="fees" id="id_fees" value="{{ user.doctor.fees }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="id_experience">Experience</label>
+                                            <span class="font-weight-light">(in years)</span>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control"
+                                                    name="experience" id="id_experience" value="{{ user.doctor.experience }}" required>
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        <label>Degree</label>
+                                        <div class="row" style="padding-top: 8px;">
+                                        <div class="col-md-7">
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="degrees" value="{{ user.doctor.degrees }}" style="border-color: #dadada;" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                  <div class="custom-file">
+                                                         <input type="file" class="custom-file-input" name="degree_certificate" id="id_degree_certificate">
+                                                         <label class="custom-file-label" for="id_degree_certificate">Choose Degree file</label>
+                                                  </div>
+                                               </div>
+                                                {% if user.doctor.degree_certificate %}
+                                                    <small class="text-dark font-weight-light">Currently: <a href="{{ user.doctor.degree_certificate.url }}" target="_blank" rel="noopener noreferrer">{{ user.doctor.degree_certificate.url }}</a></small>
+                                                {% endif %}
+                                         </div>
+                                        </div>
+
+                                        </div>
+                                    <label style="padding-top: 8px;" for="id_chamber_address">Chamber Address</label>
+                                    <div class="row" style="padding-left: 16px;">
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="chamber_address" id="id_chamber_address" rows="4" value="Text Here..." style="width:710px;" required>{{ user.doctor.chamber_address }}</textarea>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-actions" style="padding-top:16px;">
+                                    <div class="text-left">
+                                        <button type="submit" class="btn btn-info">Update Details</button>
+                                        <!--<button type="reset" class="btn btn-link">Cancel</button>-->
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+						</form>
+
+							</div>
+						</div>
+
+                    {% else %}
+
+                        <h5>You are not authorized here!</h5>
+
+                     {% endif %}
+
+    {% else %}
+
+            <h5>You are not authorized here!</h5>
+
+         {% endif %}
+
+    {% endif %}
+
+    </div>
+
+{% endblock context %}

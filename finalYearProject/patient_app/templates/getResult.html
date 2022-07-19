@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+    PatientHome
+{% endblock title %}
+
+        {% block breadCrumb %}
+            <div class="page-breadcrumb" style="margin-top: -72px; margin-bottom: -24px;">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Search results</h3>
+                  </div>
+                </div>
+            </div>
+        {% endblock breadCrumb %}
+
+
+        {% block context %}
+
+            <div class="container-fluid" style="margin-right: 8px;">
+
+            {% if user.is_patient %}
+
+                {% if specialization %}
+
+				<label style="padding-top: -32px;padding-bottom: 8px;">Specialisation</label><br>
+                <div class="flex-container" id="specs">
+                    {% for cat in specialization %}
+
+                        <div class="card" style=" border-radius: 16px;">
+                            <img class="card-img-top" src="{{ cat.header_image.url }}" alt="{{cat}}" style="width: 200px;height: 120px;border-radius: 16px 16px 0 0;">
+                            <div class="card-body text-center">
+                                <a href="{% url 'categoryList' cat %}" class="stretched-link" style="font-size: 14px; color: #222;"><p class="card-text">{{cat}}</p></a>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+			    </div>
+
+                {% endif %}
+
+                {% if specialization and doctor %}
+                <hr>
+                {% endif %}
+
+            {% if doctor %}
+                <label style="margin-top: 40px; margin-bottom: 24px;">Doctors</label>
+                <div class="flex-container" id="docs" >
+                    {% for doc in doctor %}
+                    <div class="card" style="border-radius: 12px; height: 100px;">
+                        <div class="card-body text-left">
+                            <a href="{% url 'checkDocProfile' doc.user.id %}" class="stretched-link" style="color: #222;"><span class="card-text">Dr. {{ doc.user.first_name }} {{ doc.user.last_name }}</span><br><span class="breadcrumb-item font-weight-lighter" style="font-size: 14px;">{{ doc.specialization }}</span></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+                {% if not specialization and not doctor %}
+
+                    <h6>No results found!</h6>
+
+                    {% endif %}
+
+            {% else %}
+
+                <h5>You are not authorized here!</h5>
+
+            {% endif %}
+
+            </div>
+        {% endblock context %}
+
